@@ -13,7 +13,7 @@ func UserHanlder() *Handler {
 }
 
 func (h *Handler) UserHanlder(router *mux.Router) {
-	router.HandleFunc("/create", user.Create).Methods("GET")
+	router.HandleFunc("/create", user.Create).Methods("POST")
 }
 
 

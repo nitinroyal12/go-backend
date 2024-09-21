@@ -8,12 +8,14 @@ import (
 
 type Config struct {
 	Port string
+	DB string
 }
 
 func Keys() Config {
 	godotenv.Load()
 	return Config{
 		Port: getEnv("PORT",":4001"),
+		DB: getEnv("MONGODB_URI","test"),
 	}
 }
 
