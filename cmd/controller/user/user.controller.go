@@ -1,27 +1,28 @@
 package user
 
 import (
-	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/nitin/cmd/model"
 	userservice "github.com/nitin/cmd/service/userService"
 	"github.com/nitin/cmd/utils"
+	"github.com/nitin/cmd/validation"
 )
 
 func Create(w http.ResponseWriter,r *http.Request) {
-	w.Header().Set("Content-Type","application/json")
-
-	var user model.User
-	if err := utils.Prasejson(r,user); err != nil {
+	var user *model.User
+	if err := utils.Prasejson(r,&user); err != nil {
 		utils.WriteError(w,http.StatusBadRequest,err)
+		return
+	}
+	if err := validation.CheckValidation(user); err != nil {
+		utils.WriteError(w,http.StatusBadRequest,err)
+		return
 	}
 	result, err := userservice.CreateService(user)
 	if err != nil {
-		json.NewEncoder(w).Encode("user not created somthing went wrong")
-		log.Fatal(err)
+		utils.WriteError(w,http.StatusNotFound,err)
 		return
 	}
-	json.NewEncoder(w).Encode(result)
+	utils.WriteJson(w,http.StatusOK,result)
 }

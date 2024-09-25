@@ -7,9 +7,9 @@ import (
 	"github.com/nitin/cmd/model"
 )
 
-func CreateService(user model.User) (model.User,error) {
+func CreateService(user *model.User) (*model.User,error) {
 	if _ , err := db.User.InsertOne(context.Background(),user); err != nil {
-		return model.User{} ,err
+		return nil ,err
 	}
 	 
 	return user , nil

@@ -16,9 +16,7 @@ func InitDatabase(DB string) error {
 	if err != nil {
 		return err
 	}
-	
 	db := client.Database("GOLANG")
-
 	User = db.Collection("user")
 	Todo = db.Collection("todo")
 
